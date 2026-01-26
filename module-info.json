@@ -1,0 +1,9 @@
+{
+    "date": "2026-01-26 17:53:20",
+    "name": "SimItextPdfModule",
+    "format": "json",
+    "files": ["SimItextPdfModule.json"],
+    "repository": {},
+    "version": "1",
+    "platform": "6.3.1"
+}

@@ -1,0 +1,10 @@
+{
+ "scr_code": "ModuleDocGenerator",
+ "scr_file": {
+  "path": "src/com/simplicite/commons/SimItextPdfModule/ModuleDocGenerator.java",
+  "mime": "text/plain",
+  "name": "ModuleDocGenerator.java"
+ },
+ "scr_type": "JSR",
+ "row_module_id__mdl_name": "SimItextPdfModule"
+}

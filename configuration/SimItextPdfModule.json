@@ -1,0 +1,9 @@
+{
+ "mdl_name": "SimItextPdfModule",
+ "mdl_prefix": "spdf",
+ "mdl_version": "1",
+ "mdl_type": "X",
+ "mdl_icon": null,
+ "mdl_url": null,
+ "mdl_comment": "iText PDF module export, for backward compatibility.\n\nInstructions\n------------\n\n1. Install this module\n2. Clear Cache\n3. Connect as designer\n4. Call `/ui/ext/SpdfModuleExport?module=<MyModuleName>`"
+}

@@ -1,0 +1,10 @@
+{
+ "scr_code": "PDFTool",
+ "scr_file": {
+  "path": "src/com/simplicite/commons/SimItextPdfModule/PDFTool.java",
+  "mime": "text/plain",
+  "name": "PDFTool.java"
+ },
+ "scr_type": "JSR",
+ "row_module_id__mdl_name": "SimItextPdfModule"
+}

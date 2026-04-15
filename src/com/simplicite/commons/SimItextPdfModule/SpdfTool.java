@@ -80,9 +80,9 @@ import com.simplicite.webapp.ObjectContextWeb;
  * Legacy PDF toolbox
  */
 @SuppressWarnings("unused")
-public class PDFTool {
+public class SpdfTool {
 	/** Hidden default constructor */
-	private PDFTool() {
+	private SpdfTool() {
 		// Do nothing
 	}
 
@@ -171,7 +171,7 @@ public class PDFTool {
 					document = d;
 			}
 		} catch (Exception e) {
-			AppLog.log("ECORED0001", PDFTool.class, "build", new String[] { "PDF build error" }, e, null);
+			AppLog.log("ECORED0001", SpdfTool.class, "build", new String[] { "PDF build error" }, e, null);
 			document = null;
 		}
 
@@ -219,11 +219,11 @@ public class PDFTool {
 
 			// keep or replace ?
 			if (file.exists() && replace && !file.delete())
-				AppLog.warning(PDFTool.class, "open", "Unable to delete file: " + file.getAbsolutePath(), null, null);
+				AppLog.warning(SpdfTool.class, "open", "Unable to delete file: " + file.getAbsolutePath(), null, null);
 
 			return open(pageSize, new FileOutputStream(file), event);
 		} catch (FileNotFoundException e) {
-			AppLog.log("ECORED0001", PDFTool.class, "open", new String[] { "PDF open doc error" }, e, null);
+			AppLog.log("ECORED0001", SpdfTool.class, "open", new String[] { "PDF open doc error" }, e, null);
 			return null;
 		}
 	}
@@ -286,7 +286,7 @@ public class PDFTool {
 			document.open();
 			properties(document, null, null, null, null); // Add default properties
 		} catch (DocumentException e) {
-			AppLog.log("ECORED0001", PDFTool.class, "open", new String[] { "PDF open doc error" }, e, null);
+			AppLog.log("ECORED0001", SpdfTool.class, "open", new String[] { "PDF open doc error" }, e, null);
 			document = null;
 		}
 		return document;
@@ -304,7 +304,7 @@ public class PDFTool {
 			if (d != null)
 				d.close();
 		} catch (Exception e) {
-			AppLog.log("ECORED0001", PDFTool.class, "close", new String[] { "PDF close doc error" }, e, null);
+			AppLog.log("ECORED0001", SpdfTool.class, "close", new String[] { "PDF close doc error" }, e, null);
 		}
 	}
 
@@ -368,7 +368,7 @@ public class PDFTool {
 	public static PDFEvent getDocEvent(
 			boolean pagine, int margin,
 			byte[] headerImg, byte[] footerImg) {
-		PDFEvent event = (new PDFTool()).new PDFEvent();
+		PDFEvent event = (new SpdfTool()).new PDFEvent();
 		event.m_pagine = pagine;
 		event.m_margin = margin;
 
@@ -378,7 +378,7 @@ public class PDFTool {
 				event.m_headerImage = Image.getInstance(headerImg);
 				event.m_margin_top += event.m_headerImage.getHeight() * IMAGE_SCALE;
 			} catch (Exception e) {
-				AppLog.warning(PDFTool.class, "open", "Header file not found: " + headerImg, null, null);
+				AppLog.warning(SpdfTool.class, "open", "Header file not found: " + headerImg, null, null);
 			}
 		}
 
@@ -388,7 +388,7 @@ public class PDFTool {
 				event.m_footerImage = Image.getInstance(footerImg);
 				event.m_margin_bottom += event.m_footerImage.getHeight() * IMAGE_SCALE;
 			} catch (Exception e) {
-				AppLog.warning(PDFTool.class, "open", "Footer file not found: " + footerImg, null, null);
+				AppLog.warning(SpdfTool.class, "open", "Footer file not found: " + footerImg, null, null);
 			}
 		}
 
@@ -901,7 +901,7 @@ public class PDFTool {
 			for (int i = 0; i < l.size(); i++)
 				p.add(l.get(i));
 		} catch (IOException e) {
-			AppLog.error(PDFTool.class, "addHTMLParagraph", "Unable to add HTML paragraph", e, null);
+			AppLog.error(SpdfTool.class, "addHTMLParagraph", "Unable to add HTML paragraph", e, null);
 		}
 		return p;
 	}
@@ -1066,7 +1066,7 @@ public class PDFTool {
 				throw new Exception("Resource image not found for code " + resourceCode + " and object " + objectName);
 			img = getImage(res.getDocumentContent(g));
 		} catch (Exception e) {
-			AppLog.error(PDFTool.class, "getImageFromResource",
+			AppLog.error(SpdfTool.class, "getImageFromResource",
 					"Unable to get image from resource " + resourceCode + " for object " + objectName, e, null);
 		}
 		return img;
@@ -1081,7 +1081,7 @@ public class PDFTool {
 		try {
 			return getImage(Tool.readStaticResource(path));
 		} catch (Exception e) {
-			AppLog.error(PDFTool.class, "getImageFromStaticResource",
+			AppLog.error(SpdfTool.class, "getImageFromStaticResource",
 					"Unable to get image from static resource " + path, e, null);
 			return null;
 		}
@@ -1114,7 +1114,7 @@ public class PDFTool {
 				throw new Exception("Unable to create image from data");
 			img = getImage(data);
 		} catch (Exception e) {
-			AppLog.error(PDFTool.class, "getImage", "Unable to get image from path " + path, e, null);
+			AppLog.error(SpdfTool.class, "getImage", "Unable to get image from path " + path, e, null);
 		}
 		return img;
 	}
@@ -1131,7 +1131,7 @@ public class PDFTool {
 			if (img == null)
 				throw new Exception("Unable to create image from data");
 		} catch (Exception e) {
-			AppLog.error(PDFTool.class, "getImage", "Unable to get image from data", e, null);
+			AppLog.error(SpdfTool.class, "getImage", "Unable to get image from data", e, null);
 		}
 		return img;
 	}
@@ -1186,7 +1186,7 @@ public class PDFTool {
 
 			d.add(img);
 		} catch (Exception e) {
-			AppLog.error(PDFTool.class, "insertImage", "Could not insert image into document", e, null);
+			AppLog.error(SpdfTool.class, "insertImage", "Could not insert image into document", e, null);
 		}
 	}
 
@@ -1231,7 +1231,7 @@ public class PDFTool {
 			int tocNbPages = tocReader.getNumberOfPages();
 			tocReader.close();
 			if (!fileToc.delete())
-				AppLog.warning(PDFTool.class, "insertToc", "Unable to delete TOC file: " + fileToc.getAbsolutePath(),
+				AppLog.warning(SpdfTool.class, "insertToc", "Unable to delete TOC file: " + fileToc.getAbsolutePath(),
 						null, null);
 
 			// Regenerate the TOC with shifted pages
@@ -1261,7 +1261,7 @@ public class PDFTool {
 			File fileCopy = new File(copyPath);
 			Files.move(fileCopy.toPath(), fileDoc.toPath()); // Don't user renameTo here
 		} catch (Exception e) {
-			AppLog.error(PDFTool.class, "insertToc", e.getMessage(), e, null);
+			AppLog.error(SpdfTool.class, "insertToc", e.getMessage(), e, null);
 		}
 		return copy;
 	}
@@ -1521,13 +1521,13 @@ public class PDFTool {
 							obj.setParameter(ImportExportTool.EXPORT_PROGRESS, "ok");
 						}
 					} else if (tmpFile != null && !tmpFile.delete()) {
-						AppLog.warning(PDFTool.class, "export",
+						AppLog.warning(SpdfTool.class, "export",
 								"Unable to delete temporary file: " + tmpFile.getAbsolutePath(), null, obj.getGrant());
 					}
 				} catch (IOException e) {
-					AppLog.log("ECORED0001", PDFTool.class, "export", obj.getName(), e);
+					AppLog.log("ECORED0001", SpdfTool.class, "export", obj.getName(), e);
 					if (tmpFile != null && !tmpFile.delete())
-						AppLog.warning(PDFTool.class, "export",
+						AppLog.warning(SpdfTool.class, "export",
 								"Unable to delete temporary file: " + tmpFile.getAbsolutePath(), null, obj.getGrant());
 				}
 			}
@@ -1631,7 +1631,7 @@ public class PDFTool {
 			d.close();
 			obj.setParameter(ImportExportTool.EXPORT_PROGRESS, "ok");
 		} catch (Exception e) {
-			AppLog.log("ECORED0001", PDFTool.class, "export", obj.getName(), e);
+			AppLog.log("ECORED0001", SpdfTool.class, "export", obj.getName(), e);
 			d = null;
 		} finally {
 			obj.setValues(values);

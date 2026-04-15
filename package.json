@@ -15,5 +15,5 @@
     "stylelint": "stylelint --config=.stylelint-configuration --no-color --allow-empty-input resources/**/*.css resources/**/*.less",
     "jshint": "jshint --config=.jshint-configuration --reporter=jslint resources"
   },
-  "version": "1"
+  "version": "6.3"
 }

@@ -7,13 +7,13 @@ ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.simplicite.modules</groupId>
-  <version>1-SNAPSHOT</version>
+  <version>6.3-SNAPSHOT</version>
   <artifactId>SimItextPdfModule</artifactId>
   <name>SimItextPdfModule</name>
   <description>Simplicite module: SimItextPdfModule</description>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <simplicite.url>https://demo.simplicite.io</simplicite.url>
+    <simplicite.url>https://dev6.dev2.simplicite.io</simplicite.url>
     <simplicite.version>6.3-SNAPSHOT</simplicite.version>
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
@@ -21,7 +21,7 @@ ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ
     <skipTests>true</skipTests>
     <sonar.projectKey>simplicite-modules-SimItextPdfModule</sonar.projectKey>
     <sonar.projectName>SimItextPdfModule</sonar.projectName>
-    <sonar.projectVersion>1</sonar.projectVersion>
+    <sonar.projectVersion>6.3</sonar.projectVersion>
     <sonar.sources>src,resources</sonar.sources>
     <sonar.exclusions>SimItextPdfModule.xml,SimItextPdfModule.json,SimItextPdfModule-*.yml,configuration/**,**.min.js,**.min.css</sonar.exclusions>
     <sonar.coverage.exclusions>resources/**.js,src/**.java</sonar.coverage.exclusions>
@@ -72,6 +72,16 @@ ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ
             <version>12.3.1</version>
           </dependency>
         </dependencies>
+        <executions>
+          <execution>
+            <?m2e ignore?>
+            <id>checkstyle-validation</id>
+            <phase>validate</phase>
+            <goals>
+            <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>

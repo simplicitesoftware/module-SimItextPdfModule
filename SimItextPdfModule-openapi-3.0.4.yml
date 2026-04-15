@@ -2,7 +2,7 @@
 # / __(_)_ __  _ __| (_)__(_) |_ /_/
 # \__ \ | '  \| '_ \ | / _| |  _/ -_)
 # |___/_|_|_|_| .__/_|_\__|_|\__\___|
-#             |_| Module: SimItextPdfModule 1
+#             |_| Module: SimItextPdfModule 6.3
 components:
   schemas:
     Error404:
@@ -132,7 +132,7 @@ components:
       type: http
 servers:
 - url: /api
-openapi: 3.0.2
+openapi: 3.0.4
 paths:
   /login:
     get:
@@ -220,4 +220,4 @@ info:
     email: contact@simplicitesoftware.com
   description: API for module SimItextPdfModule
   title: SimItextPdfModule
-  version: '1'
+  version: '6.3'

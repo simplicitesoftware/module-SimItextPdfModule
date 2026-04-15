@@ -1,7 +1,7 @@
 {
- "scr_code": "ModuleDocGenerator",
+ "scr_code": "SpdfModuleDocGenerator",
  "scr_file": {
-  "path": "src/com/simplicite/commons/SimItextPdfModule/ModuleDocGenerator.java",
+  "path": "src/com/simplicite/commons/SimItextPdfModule/SpdfModuleDocGenerator.java",
   "mime": "text/plain",
   "name": "ModuleDocGenerator.java"
  },

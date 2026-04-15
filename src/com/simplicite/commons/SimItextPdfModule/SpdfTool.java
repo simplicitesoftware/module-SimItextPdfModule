@@ -276,10 +276,10 @@ public class SpdfTool {
 			} else {
 				document = new Document(
 						pageSize,
-						event.m_margin,
-						event.m_margin,
-						event.m_margin_top,
-						event.m_margin_bottom);
+						event.margin,
+						event.margin,
+						event.marginTop,
+						event.marginBottom);
 				writer = PdfWriter.getInstance(document, out);
 				writer.setPageEvent(event);
 			}
@@ -369,24 +369,24 @@ public class SpdfTool {
 			boolean pagine, int margin,
 			byte[] headerImg, byte[] footerImg) {
 		PDFEvent event = (new SpdfTool()).new PDFEvent();
-		event.m_pagine = pagine;
-		event.m_margin = margin;
+		event.pagine = pagine;
+		event.margin = margin;
 
-		event.m_margin_top = margin;
+		event.marginTop = margin;
 		if (headerImg != null) {
 			try {
-				event.m_headerImage = Image.getInstance(headerImg);
-				event.m_margin_top += event.m_headerImage.getHeight() * IMAGE_SCALE;
+				event.headerImage = Image.getInstance(headerImg);
+				event.marginTop += event.headerImage.getHeight() * IMAGE_SCALE;
 			} catch (Exception e) {
 				AppLog.warning(SpdfTool.class, "open", "Header file not found: " + headerImg, null, null);
 			}
 		}
 
-		event.m_margin_bottom = margin;
+		event.marginBottom = margin;
 		if (footerImg != null) {
 			try {
-				event.m_footerImage = Image.getInstance(footerImg);
-				event.m_margin_bottom += event.m_footerImage.getHeight() * IMAGE_SCALE;
+				event.footerImage = Image.getInstance(footerImg);
+				event.marginBottom += event.footerImage.getHeight() * IMAGE_SCALE;
 			} catch (Exception e) {
 				AppLog.warning(SpdfTool.class, "open", "Footer file not found: " + footerImg, null, null);
 			}
@@ -612,21 +612,18 @@ public class SpdfTool {
 			if (o.isFieldVisible(f, true, true)) {
 				ObjectField f2 = o.getRootField(f);
 				// Booleans
-				if (splitBoolean && f.getType() == ObjectField.TYPE_BOOLEAN) {
+				if (splitBoolean && f.getType() == ObjectField.TYPE_BOOLEAN)
 					bools.add(f);
-				}
 				// Large field
 				else if (splitLongText
-						&& (f.getType() == ObjectField.TYPE_HTML || f.getType() == ObjectField.TYPE_LONG_STRING)) {
+						&& (f.getType() == ObjectField.TYPE_HTML || f.getType() == ObjectField.TYPE_LONG_STRING))
 					larges.add(f);
-				}
 				// Optionals
 				else if (splitOption
-						&& ((f2 != null && !f2.isRequired()) || (f2 == null && !f.isRequired()))) {
+						&& ((f2 != null && !f2.isRequired()) || (f2 == null && !f.isRequired())))
 					options.add(f);
-				} else {
+				else
 					cols.add(f);
-				}
 			}
 		}
 
@@ -711,8 +708,7 @@ public class SpdfTool {
 										Color.WHITE));
 							}
 						}
-					} else // Textual
-					{
+					} else { // Textual
 						int align = (f.getType() == ObjectField.TYPE_FLOAT || f.getType() == ObjectField.TYPE_INT
 								|| f.getType() == ObjectField.TYPE_BIGDECIMAL)
 										? Cell.ALIGN_RIGHT
@@ -740,8 +736,7 @@ public class SpdfTool {
 								} catch (Exception e) {
 									option.addCell(getCell("", NORMAL, Cell.ALIGN_LEFT, true, Color.WHITE));
 								}
-							} else // textual
-							{
+							} else { // textual
 								option.addCell(getCell(value));
 							}
 						}
@@ -919,8 +914,7 @@ public class SpdfTool {
 	public static void insertForm(Document d, ObjectDB o, Color bkg, boolean lovCode, boolean emptyValues)
 			throws DocumentException {
 		FieldAreas fas = o.getFieldAreas();
-		for (int i = 1; i < fas.size(); i++) // skip 0 = technical fields
-		{
+		for (int i = 1; i < fas.size(); i++) { // skip 0 = technical fields
 			FieldArea fa = fas.get(i);
 			if (fa != null && fa.isVisible())
 				insertFieldArea(d, o, fa, bkg, lovCode, emptyValues);
@@ -1320,39 +1314,39 @@ public class SpdfTool {
 	 */
 	public class PDFEvent extends PdfPageEventHelper {
 		// Image
-		public Image m_headerImage = null;
-		public Image m_footerImage = null;
+		public Image headerImage = null;
+		public Image footerImage = null;
 
 		// Display page nums
-		public boolean m_pagine = false;
+		public boolean pagine = false;
 
 		// Same right/left margin
-		public int m_margin = 0;
+		public int margin = 0;
 		// Top margin
-		public int m_margin_top = 0;
+		public int marginTop = 0;
 		// Bottom margin
-		public int m_margin_bottom = 0;
+		public int marginBottom = 0;
 
 		// auto-increment
 		public int chapterIndex = 1;
 		public int sectionIndex = 2;
 
 		// This is the contentbyte object of the writer
-		protected PdfContentByte m_cb;
+		protected PdfContentByte contentByte;
 
 		// we will put the final number of pages in a template
-		protected PdfTemplate m_template;
+		protected PdfTemplate pdfTemplate;
 
 		// this is the BaseFont we are going to use for the header / footer
-		protected BaseFont m_bf = null;
+		protected BaseFont baseFont = null;
 
 		// Initialisation
 		@Override
 		public void onOpenDocument(PdfWriter writer, Document document) {
 			try {
-				m_bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
-				m_cb = writer.getDirectContent();
-				m_template = m_cb.createTemplate(50, 20);
+				baseFont = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
+				contentByte = writer.getDirectContent();
+				pdfTemplate = contentByte.createTemplate(50, 20);
 			} catch (Exception e) {
 				// Silent
 			}
@@ -1363,20 +1357,20 @@ public class SpdfTool {
 			try {
 				float h = document.getPageSize().getHeight();
 
-				if (m_headerImage != null) {
-					float x = m_headerImage.getWidth() * IMAGE_SCALE;
-					float y = m_headerImage.getHeight() * IMAGE_SCALE;
-					m_cb.addImage(m_headerImage,
+				if (headerImage != null) {
+					float x = headerImage.getWidth() * IMAGE_SCALE;
+					float y = headerImage.getHeight() * IMAGE_SCALE;
+					contentByte.addImage(headerImage,
 							x, 0, 0, y,
-							m_margin, h - m_margin_top + 5);
+							margin, h - marginTop + 5);
 				}
 
-				if (m_footerImage != null) {
-					float x = m_footerImage.getWidth() * IMAGE_SCALE;
-					float y = m_footerImage.getHeight() * IMAGE_SCALE;
-					m_cb.addImage(m_footerImage,
+				if (footerImage != null) {
+					float x = footerImage.getWidth() * IMAGE_SCALE;
+					float y = footerImage.getHeight() * IMAGE_SCALE;
+					contentByte.addImage(footerImage,
 							x, 0, 0, y,
-							m_margin, (float) m_margin - 5);
+							margin, (float) margin - 5);
 				}
 			} catch (Exception e) {
 				AppLog.error(getClass(), "onStartPage", "Image", e, null);
@@ -1385,32 +1379,32 @@ public class SpdfTool {
 
 		@Override
 		public void onEndPage(PdfWriter writer, Document document) {
-			if (m_pagine) {
+			if (pagine) {
 				// Page courante
 				int pageN = writer.getPageNumber();
 				String text = "Page " + pageN + " / ";
 
-				m_cb.beginText();
-				m_cb.setFontAndSize(m_bf, 8);
-				m_cb.setTextMatrix(495, (float) m_margin + 5);
-				m_cb.showText(text);
-				m_cb.endText();
+				contentByte.beginText();
+				contentByte.setFontAndSize(baseFont, 8);
+				contentByte.setTextMatrix(495, (float) margin + 5);
+				contentByte.showText(text);
+				contentByte.endText();
 
 				// Zone total des pages
-				float len = m_bf.getWidthPoint(text, 8);
-				m_cb.addTemplate(m_template, 495 + len, (float) m_margin + 5);
+				float len = baseFont.getWidthPoint(text, 8);
+				contentByte.addTemplate(pdfTemplate, 495 + len, (float) margin + 5);
 			}
 		}
 
 		// Fermeture pour le nombre de pages
 		@Override
 		public void onCloseDocument(PdfWriter writer, Document document) {
-			if (m_pagine) {
+			if (pagine) {
 				int nb = writer.getPageNumber() - 1;
-				m_template.beginText();
-				m_template.setFontAndSize(m_bf, 8);
-				m_template.showText(String.valueOf(nb));
-				m_template.endText();
+				pdfTemplate.beginText();
+				pdfTemplate.setFontAndSize(baseFont, 8);
+				pdfTemplate.showText(String.valueOf(nb));
+				pdfTemplate.endText();
 			}
 		}
 	}
@@ -1568,14 +1562,14 @@ public class SpdfTool {
 			d.addCreator(Globals.getPlatformName());
 			d.addCreationDate();
 
-			Font m_title = FontFactory.getFont(FontFactory.HELVETICA, 12, Font.BOLD, Color.BLACK);
-			Font m_normal = FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, Color.BLACK);
-			Font m_head = FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, Color.BLACK);
+			Font titleFont = FontFactory.getFont(FontFactory.HELVETICA, 12, Font.BOLD, Color.BLACK);
+			Font normalFont = FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, Color.BLACK);
+			Font headFont = FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, Color.BLACK);
 
 			PdfWriter.getInstance(d, out);
 			d.open();
 
-			Phrase sTitle = new Phrase(obj.getDisplay(), m_title);
+			Phrase sTitle = new Phrase(obj.getDisplay(), titleFont);
 			d.add(sTitle);
 
 			List<ObjectField> fields = CSVTool.getVisibleColumns(obj, mode, false);
@@ -1594,7 +1588,7 @@ public class SpdfTool {
 					if (Tool.isEmpty(label))
 						label = f.getDisplay();
 
-					Cell cell = new Cell(new Phrase(label, m_head));
+					Cell cell = new Cell(new Phrase(label, headFont));
 					cell.setBackgroundColor(Color.GRAY);
 					cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
 					table.addCell(cell);
@@ -1620,7 +1614,7 @@ public class SpdfTool {
 					else if (f.getType() == ObjectField.TYPE_DATETIME)
 						val = Tool.toFormattedDatetime(val, g.getDateFormat());
 
-					table.addCell(new Phrase(val, m_normal));
+					table.addCell(new Phrase(val, normalFont));
 				}
 				if (obj.getParameter(ImportExportTool.EXPORT_STOPPED) != null)
 					break;

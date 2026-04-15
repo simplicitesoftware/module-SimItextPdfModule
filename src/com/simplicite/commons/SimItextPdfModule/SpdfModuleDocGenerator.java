@@ -123,11 +123,11 @@ public class SpdfModuleDocGenerator implements SpdfTool.PDFInterface {
 			{ "DomainOperation", "Adapter", "1", "0", "1", "1" }
 	};
 
-	private Module m_module = null;
-	private SpdfTool.PDFEvent m_event = null;
+	private Module docModule = null;
+	private SpdfTool.PDFEvent docEvent = null;
 
-	private static String m_yes = "Yes";
-	private static String m_no = "No";
+	private static String yes = "Yes";
+	private static String no = "No";
 
 	public static String buildPdfDoc(String rowId) throws MethodException {
 		if (Tool.isEmpty(rowId))
@@ -158,11 +158,11 @@ public class SpdfModuleDocGenerator implements SpdfTool.PDFInterface {
 	 * @return PDF document
 	 */
 	public synchronized Document process(String pdfPath, Module module) {
-		m_module = module;
+		docModule = module;
 		Document document = null;
 		Grant g = Grant.getSystemAdmin();
-		m_yes = g.T("YES");
-		m_no = g.T("NO");
+		yes = g.T("YES");
+		no = g.T("NO");
 
 		try {
 			byte[] header = null;
@@ -178,9 +178,9 @@ public class SpdfModuleDocGenerator implements SpdfTool.PDFInterface {
 			else
 				footer = Tool.readStaticResource("images/module_footer.jpg");
 
-			m_event = SpdfTool.getDocEvent(true, 30, header, footer);
+			docEvent = SpdfTool.getDocEvent(true, 30, header, footer);
 
-			document = SpdfTool.build(PageSize.A4, this, pdfPath, true, m_event, 2, 2);
+			document = SpdfTool.build(PageSize.A4, this, pdfPath, true, docEvent, 2, 2);
 		} catch (Exception e) {
 			AppLog.log("ECORED0001", getClass(), "process", new String[] { "PDF generation error" }, e, null);
 			document = null;
@@ -195,9 +195,9 @@ public class SpdfModuleDocGenerator implements SpdfTool.PDFInterface {
 		cell.setBackgroundColor(COLOR_HEAD_BKG);
 		cell.setHorizontalAlignment(Cell.ALIGN_CENTER);
 		cell.add(new Paragraph("\n", SpdfTool.TITLE0));
-		cell.add(new Paragraph("Module " + m_module.getFieldValue("mdl_name"), SpdfTool.TITLE0));
+		cell.add(new Paragraph("Module " + docModule.getFieldValue("mdl_name"), SpdfTool.TITLE0));
 		cell.add(new Paragraph("Configuration", SpdfTool.TITLE1));
-		cell.add(new Paragraph("Version " + m_module.getFieldValue("mdl_version"), SpdfTool.TITLE1));
+		cell.add(new Paragraph("Version " + docModule.getFieldValue("mdl_version"), SpdfTool.TITLE1));
 		cell.add(new Paragraph("\n", SpdfTool.TITLE0));
 		table.addCell(cell);
 
@@ -222,10 +222,10 @@ public class SpdfModuleDocGenerator implements SpdfTool.PDFInterface {
 
 	@Override
 	public void setDocInfos(Document d) throws DocumentException {
-		String module = m_module.getFieldValue("mdl_name");
+		String module = docModule.getFieldValue("mdl_name");
 		SpdfTool.properties(
 				d,
-				m_module.getDisplay() + ": " + module,
+				docModule.getDisplay() + ": " + module,
 				"Configuration document for module: " + module,
 				null,
 				null);
@@ -268,7 +268,7 @@ public class SpdfModuleDocGenerator implements SpdfTool.PDFInterface {
 			// Add a Chapter ?
 			if (curDomain == null || !domain.equals(curDomain)) {
 				String title = getTranslate("Domain#" + domain);
-				chapter = SpdfTool.addChapter(d, title, m_event, false);
+				chapter = SpdfTool.addChapter(d, title, docEvent, false);
 				curDomain = domain;
 			}
 
@@ -280,7 +280,7 @@ public class SpdfModuleDocGenerator implements SpdfTool.PDFInterface {
 			// Object list in a section
 			ObjectDB o = obj.get(domain + ":" + object);
 			if (o != null) {
-				SpdfTool.addSection(d, chapter, o.getDisplay(), m_event, false);
+				SpdfTool.addSection(d, chapter, o.getDisplay(), docEvent, false);
 				SpdfTool.insertList(d, o, splitOption, splitBool, splitLarge, showLov, COLOR_HEAD_BKG, true);
 			}
 		}
@@ -295,7 +295,7 @@ public class SpdfModuleDocGenerator implements SpdfTool.PDFInterface {
 			return;
 
 		String title = getTranslate("Domain#DomainModeler");
-		Chapter chapter = SpdfTool.addChapter(d, title, m_event, false);
+		Chapter chapter = SpdfTool.addChapter(d, title, docEvent, false);
 		for (int i = 0; i < v.size(); i++) {
 			String id = v.get(i)[0];
 			if (model.select(id)) {
@@ -304,7 +304,7 @@ public class SpdfModuleDocGenerator implements SpdfTool.PDFInterface {
 
 				String modelName = model.getFieldValue("mod_name");
 				String templateName = model.getFieldValue("mtp_name");
-				SpdfTool.addSection(d, chapter, templateName + ": " + modelName, m_event, false);
+				SpdfTool.addSection(d, chapter, templateName + ": " + modelName, docEvent, false);
 
 				String imageId = model.getFieldValue("mod_image");
 				if (!Tool.isEmpty(imageId))
@@ -325,10 +325,10 @@ public class SpdfModuleDocGenerator implements SpdfTool.PDFInterface {
 		if (filter) {
 			ObjectField mdl = o.getField("row_module_id", false);
 			if (mdl != null) {
-				mdl.setFilter(m_module.getRowId());
+				mdl.setFilter(docModule.getRowId());
 				o.getField("mdl_name").setVisibility(ObjectField.VIS_HIDDEN);
 			} else {
-				o.getRowIdField().setFilter(m_module.getRowId());
+				o.getRowIdField().setFilter(docModule.getRowId());
 			}
 		}
 
@@ -348,7 +348,7 @@ public class SpdfModuleDocGenerator implements SpdfTool.PDFInterface {
 	}
 
 	private void chapterModule(Document d) throws DocumentException {
-		Chapter chapter = SpdfTool.addChapter(d, "Module", m_event, false);
+		Chapter chapter = SpdfTool.addChapter(d, "Module", docEvent, false);
 		sectionObjInternal(d, chapter);
 		sectionObjExternal(d, chapter);
 	}
@@ -366,7 +366,7 @@ public class SpdfModuleDocGenerator implements SpdfTool.PDFInterface {
 			String[] val = v.get(i);
 			String objName = val[obj.getFieldIndex("obo_name")];
 			String title = obj.getDisplay() + ": " + objName;
-			Section section = SpdfTool.addSection(d, chapter, title, m_event, false);
+			Section section = SpdfTool.addSection(d, chapter, title, docEvent, false);
 
 			// Object properties
 			obj.select(val[0]);
@@ -410,7 +410,7 @@ public class SpdfModuleDocGenerator implements SpdfTool.PDFInterface {
 			tso.setFieldFilter("tsl_object", "ObjectInternal:" + val[0]);
 			List<String[]> r = tso.search(false);
 			if (!r.isEmpty()) {
-				SpdfTool.addSection(d, section, tso.getDisplay(), m_event, false);
+				SpdfTool.addSection(d, section, tso.getDisplay(), docEvent, false);
 				SpdfTool.insertList(d, tso, true, false, false, false, COLOR_HEAD_BKG, true);
 			}
 
@@ -419,7 +419,7 @@ public class SpdfModuleDocGenerator implements SpdfTool.PDFInterface {
 			fct.setFieldFilter("fct_object_id", val[0]);
 			r = fct.search(false);
 			if (!r.isEmpty()) {
-				SpdfTool.addSection(d, section, fct.getDisplay(), m_event, false);
+				SpdfTool.addSection(d, section, fct.getDisplay(), docEvent, false);
 				SpdfTool.insertList(d, fct, false, false, false, false, COLOR_HEAD_BKG, true);
 			}
 
@@ -429,7 +429,7 @@ public class SpdfModuleDocGenerator implements SpdfTool.PDFInterface {
 			r = att.search(false);
 			List<String> vf = new ArrayList<>();
 			if (!r.isEmpty()) {
-				SpdfTool.addSection(d, section, att.getDisplay(), m_event, false);
+				SpdfTool.addSection(d, section, att.getDisplay(), docEvent, false);
 
 				int iFId = att.getFieldIndex("obf_field_id");
 				int iFName = att.getFieldIndex("fld_name");
@@ -502,7 +502,7 @@ public class SpdfModuleDocGenerator implements SpdfTool.PDFInterface {
 
 			// Fields
 			ObjectDB fld = getObject("Field", false);
-			SpdfTool.addSection(d, section, fld.getDisplay(), m_event, false);
+			SpdfTool.addSection(d, section, fld.getDisplay(), docEvent, false);
 
 			int iDbn = fld.getFieldIndex("fld_dbname");
 			int iVis = fld.getFieldIndex("fld_visible");
@@ -575,7 +575,7 @@ public class SpdfModuleDocGenerator implements SpdfTool.PDFInterface {
 
 				switch (Tool.parseInt(val2[iVis])) {
 					case ObjectField.VIS_BOTH:
-						table.addCell(new PdfPCell(new Phrase(m_yes, SpdfTool.NORMAL)));
+						table.addCell(new PdfPCell(new Phrase(yes, SpdfTool.NORMAL)));
 						break;
 					case ObjectField.VIS_FORM:
 						table.addCell(new PdfPCell(new Phrase("Form", SpdfTool.NORMAL)));
@@ -584,7 +584,7 @@ public class SpdfModuleDocGenerator implements SpdfTool.PDFInterface {
 						table.addCell(new PdfPCell(new Phrase("List", SpdfTool.NORMAL)));
 						break;
 					case ObjectField.VIS_HIDDEN:
-						table.addCell(new PdfPCell(new Phrase(m_no, SpdfTool.NORMAL)));
+						table.addCell(new PdfPCell(new Phrase(no, SpdfTool.NORMAL)));
 						break;
 					case ObjectField.VIS_FORBIDDEN:
 						table.addCell(new PdfPCell(new Phrase("Forb", SpdfTool.NORMAL)));
@@ -598,7 +598,7 @@ public class SpdfModuleDocGenerator implements SpdfTool.PDFInterface {
 			// LOV
 			if (!vLov.isEmpty()) {
 				ObjectDB lov = getObject("FieldListValue", false);
-				SpdfTool.addSection(d, section, lov.getDisplay(), m_event, false);
+				SpdfTool.addSection(d, section, lov.getDisplay(), docEvent, false);
 
 				int iCod = lov.getFieldIndex("lov_code");
 				int iLng = lov.getFieldIndex("lov_lang");
@@ -653,7 +653,7 @@ public class SpdfModuleDocGenerator implements SpdfTool.PDFInterface {
 			String[] val = v.get(i);
 			String name = val[iName];
 			String title = obe.getDisplay() + ": " + name;
-			Section section = SpdfTool.addSection(d, chapter, title, m_event, false);
+			Section section = SpdfTool.addSection(d, chapter, title, docEvent, false);
 
 			// Properties
 			PdfPTable table = SpdfTool.getTable(new int[] { 2, 5 }, true);
@@ -721,7 +721,7 @@ public class SpdfModuleDocGenerator implements SpdfTool.PDFInterface {
 		ObjectDB tsl = Grant.getSystemAdmin().getTmpObject("Translate");
 		tsl.resetFilters();
 		tsl.setFieldFilter("tsl_object", filter);
-		tsl.setFieldFilter("tsl_lang", m_module.getGrant().getLang());
+		tsl.setFieldFilter("tsl_lang", docModule.getGrant().getLang());
 		List<String[]> v = tsl.search(false);
 		if (!v.isEmpty()) {
 			String[] val = v.get(0);
@@ -739,7 +739,7 @@ public class SpdfModuleDocGenerator implements SpdfTool.PDFInterface {
 		if (Tool.isEmpty(m))
 			return;
 
-		SpdfTool.addSection(d, section, "ObjectDB extends", m_event, false);
+		SpdfTool.addSection(d, section, "ObjectDB extends", docEvent, false);
 		PdfPTable table = SpdfTool.getTable(new int[] { 1, 2 }, true);
 		table.addCell(SpdfTool.getHeaderCell("Java method", COLOR_HEAD_BKG));
 		table.addCell(SpdfTool.getHeaderCell("Parameters", COLOR_HEAD_BKG));
@@ -761,7 +761,7 @@ public class SpdfModuleDocGenerator implements SpdfTool.PDFInterface {
 		if (code != null)
 			title += " " + code;
 
-		SpdfTool.addSection(d, section, title, m_event, false);
+		SpdfTool.addSection(d, section, title, docEvent, false);
 
 		PdfPTable table = SpdfTool.getTable(new int[] { 1 }, true);
 		table.addCell(SpdfTool.getHeaderCell("code", COLOR_HEAD_BKG));

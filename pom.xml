@@ -13,7 +13,7 @@ ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ
   <description>Simplicite module: SimItextPdfModule</description>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <simplicite.url>https://demo63.sca.simplicite.io</simplicite.url>
+    <simplicite.url>https://demo.simplicite.io</simplicite.url>
     <simplicite.version>6.3-SNAPSHOT</simplicite.version>
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
@@ -78,7 +78,7 @@ ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ
   <repositories>
     <repository>
       <id>simplicite</id>
-      <url>${simplicite.url}/maven</url>
+      <url>https://platform.simplicite.io/6.3/maven</url>
       <releases><enabled>true</enabled></releases>
       <snapshots><enabled>true</enabled></snapshots>
     </repository>

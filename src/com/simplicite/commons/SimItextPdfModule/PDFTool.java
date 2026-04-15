@@ -77,10 +77,9 @@ import com.simplicite.util.engine.Platform;
 import com.simplicite.webapp.ObjectContextWeb;
 
 /**
- * PDF toolbox
- * <br>
- * This class only provides static variables and methods
+ * Legacy PDF toolbox
  */
+@SuppressWarnings("unused")
 public class PDFTool {
 	/** Hidden default constructor */
 	private PDFTool() {

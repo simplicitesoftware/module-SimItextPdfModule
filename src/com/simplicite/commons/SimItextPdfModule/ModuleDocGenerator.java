@@ -33,6 +33,7 @@ import com.simplicite.util.exceptions.*;
 /**
  * Module documentation generator
  */
+@SuppressWarnings("unused")
 public class ModuleDocGenerator implements PDFTool.PDFInterface {
 	/** Blue of Simplicite */
 	private static final Color COLOR_HEAD_BKG = new Color(0, 189, 242);

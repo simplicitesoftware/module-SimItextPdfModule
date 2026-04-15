@@ -19,5 +19,6 @@ Notes
 
 If you imported this module so as to compile old code which was 
 using the legacy `PDFTool` helper class you need to refactor this old code
-to use `com.simplicite.commons.Simi`
+to import and use `com.simplicite.commons.SimItextPdfModule.SpdfTool`
+instead of `com.simplicite.util.tools.PDFTool`.
 

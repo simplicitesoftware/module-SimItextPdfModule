@@ -5,5 +5,5 @@
  "mdl_type": "X",
  "mdl_icon": null,
  "mdl_url": "{\n    \"type\": \"git\",\n    \"branch\": \"v6.3\",\n    \"origin\": {\"uri\": \"https://github.com/simplicitesoftware/module-SimItextPdfModule.git\"},\n    \"maven\": {\n        \"checkstyle\": true,\n        \"repositoryUrl\": \"https://platform.simplicite.io/6.3/maven\"\n    }\n}",
- "mdl_comment": "iText PDF module export, for backward compatibility.\n\nInstructions\n------------\n\n1. Install this module\n2. Clear Cache\n3. Connect as designer\n4. Use the _Legacy PDF_ module publication"
+ "mdl_comment": "Module legacy PDF export, for backward compatibility.\n\nInstructions\n------------\n\n1. Install this module\n2. Clear the cache\n3. Connect as designer\n4. Use the _Legacy PDF document_ module export"
 }

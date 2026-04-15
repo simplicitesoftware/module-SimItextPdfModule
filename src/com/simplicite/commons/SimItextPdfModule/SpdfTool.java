@@ -17,8 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.contentstream.operator.Operator;
@@ -1482,58 +1480,6 @@ public class SpdfTool {
 
 		/** Build the last page(s) */
 		public void buildFootPages(Document d) throws DocumentException;
-	}
-
-	/**
-	 * Export list to PDF
-	 * 
-	 * @param obj      Object
-	 * @param rows     Data records
-	 * @param mode     full or list
-	 * @param response optional HTTP response
-	 * @return temp file name if response is null
-	 */
-	public static String export(ObjectDB obj, List<String[]> rows, String mode, HttpServletResponse response) {
-		final File tmpFile = response == null ? FileTool.getRandomFile(Platform.getExportDir(), "tmp_exportpdf", "pdf")
-				: null;
-		final File waitFile = tmpFile != null ? new File(Platform.getExportDir() + "/" + tmpFile.getName().substring(4))
-				: null;
-
-		Runnable r = new Runnable() {
-			@Override
-			public void run() {
-				try (OutputStream out = response != null ? response.getOutputStream() : new FileOutputStream(tmpFile)) {
-					export(obj, rows, mode, out);
-
-					if (obj.getParameter(ImportExportTool.EXPORT_STOPPED) == null) {
-						// Move the file in export directory, to be loaded by the UI
-						if (waitFile != null) {
-							if (!tmpFile.renameTo(waitFile)) // ZZZ they are in a same directory
-								throw new IOException("Unable to rename " + tmpFile.getAbsolutePath() + " to "
-										+ waitFile.getAbsolutePath());
-
-							obj.setParameter(ImportExportTool.EXPORT_PROGRESS, "ok");
-						}
-					} else if (tmpFile != null && !tmpFile.delete()) {
-						AppLog.warning(SpdfTool.class, "export",
-								"Unable to delete temporary file: " + tmpFile.getAbsolutePath(), null, obj.getGrant());
-					}
-				} catch (IOException e) {
-					AppLog.log("ECORED0001", SpdfTool.class, "export", obj.getName(), e);
-					if (tmpFile != null && !tmpFile.delete())
-						AppLog.warning(SpdfTool.class, "export",
-								"Unable to delete temporary file: " + tmpFile.getAbsolutePath(), null, obj.getGrant());
-				}
-			}
-		};
-
-		if (waitFile != null) {
-			JobQueue.push("Simplicite-exportPDF-" + obj.getName(), r);
-			return waitFile.getName();
-		}
-
-		r.run();
-		return null;
 	}
 
 	/**

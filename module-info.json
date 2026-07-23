@@ -5,5 +5,5 @@
     "files": ["configuration/**.json"],
     "repository": {"origin": {"uri": "https://github.com/simplicitesoftware/module-SimItextPdfModule.git"}},
     "version": "6.3",
-    "platform": "6.3.8-preview"
+    "platform": "6.3.12"
 }

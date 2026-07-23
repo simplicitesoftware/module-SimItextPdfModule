@@ -26,7 +26,6 @@ import com.simplicite.util.ObjectDB;
 import com.simplicite.util.ObjectField;
 import com.simplicite.util.Resource;
 import com.simplicite.util.Tool;
-import com.simplicite.util.exceptions.GetException;
 import com.simplicite.util.exceptions.MethodException;
 
 import com.simplicite.objects.System.Module;
@@ -134,9 +133,7 @@ public class SpdfModuleDocGenerator implements SpdfTool.PDFInterface {
 			throw new MethodException("Module row ID is empty!");
 
 		Module mdl = (Module) Grant.getSystemAdmin().getTmpObject("Module");
-		try {
-			mdl.getTool().get(rowId);
-
+		if (mdl.select(rowId)) {
 			String pdf = mdl.getFieldValue("mdl_name") + "-" + mdl.getFieldValue("mdl_version") + ".pdf";
 			String path = com.simplicite.util.engine.Platform.getExportDir() + "/" + pdf;
 			SpdfModuleDocGenerator dg = new SpdfModuleDocGenerator();
@@ -145,7 +142,7 @@ public class SpdfModuleDocGenerator implements SpdfTool.PDFInterface {
 			if (d == null)
 				throw new MethodException("Error generating module PDF documentation");
 			return path;
-		} catch (GetException e) {
+		} else {
 			throw new MethodException("Module row ID unknown!");
 		}
 	}

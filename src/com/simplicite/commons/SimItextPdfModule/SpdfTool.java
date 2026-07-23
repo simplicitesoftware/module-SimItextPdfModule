@@ -65,7 +65,6 @@ import com.simplicite.util.FieldArea;
 import com.simplicite.util.FieldAreas;
 import com.simplicite.util.Globals;
 import com.simplicite.util.Grant;
-import com.simplicite.util.JobQueue;
 import com.simplicite.util.ObjectDB;
 import com.simplicite.util.ObjectField;
 import com.simplicite.util.ObjectHooks;

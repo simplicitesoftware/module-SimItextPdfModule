@@ -2,7 +2,7 @@
     "date": "2026-07-30 11:53:58",
     "name": "SimItextPdfModule",
     "format": "json",
-    "files": ["SimItextPdfModule.json"],
+    "files": ["configuration/**.json"],
     "repository": {"origin": {"uri": "https://github.com/simplicitesoftware/module-SimItextPdfModule.git"}},
     "version": "6.3",
     "branch": "v6.3",

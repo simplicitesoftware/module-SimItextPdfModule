@@ -1,9 +1,0 @@
-{
- "mdl_name": "SimItextPdfModule",
- "mdl_prefix": "spdf",
- "mdl_version": "6.3",
- "mdl_type": "X",
- "mdl_icon": null,
- "mdl_url": "{\n    \"type\": \"git\",\n    \"branch\": \"v6.3\",\n    \"origin\": {\"uri\": \"https://github.com/simplicitesoftware/module-SimItextPdfModule.git\"},\n    \"maven\": {\n        \"checkstyle\": true,\n        \"repositoryUrl\": \"https://platform.simplicite.io/6.3/maven\"\n    }\n}",
- "mdl_comment": "Module legacy PDF export\n========================\n\nProvided for backward compatibility.\n\nInstructions\n------------\n\n1. Install this module\n2. Clear the cache\n3. Connect as designer\n4. Use the _Legacy PDF document_ module export\n\nNotes\n-----\n\nIf you imported this module so as to compile old code which was \nusing the legacy `PDFTool` helper class you need to refactor this old code\nto import and use `com.simplicite.commons.SimItextPdfModule.SpdfTool`\ninstead of `com.simplicite.util.tools.PDFTool`."
-}
